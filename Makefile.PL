@@ -7,5 +7,7 @@ use ExtUtils::MakeMaker;
 # the contents of the Makefile that is written.
 WriteMakefile(
     'NAME'    => 'Kwiki::Archive::Cvs',
-	'VERSION_FROM' => 'Cvs.pm'
+	'VERSION' => '0.101',
+
+	NO_META => 1
 );

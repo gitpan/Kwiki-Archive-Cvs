@@ -1,10 +1,10 @@
-# http://module-build.sourceforge.net/META-spec.html
-#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
-name:         Kwiki-Archive-Cvs
-version:      0.1
-version_from: Cvs.pm
-installdirs:  site
+name: Kwiki-Archive-Cvs
+version: 0.101
+authored_by:
+ - Brian Ingerson <ingy@cpan.org>
+ - Joseph Walton <joe@kafsemo.org>
+installdirs: site
 requires:
-
+  perl: 5.6.1
+  Kwiki: 0.33
 distribution_type: module
-generated_by: ExtUtils::MakeMaker version 6.17
