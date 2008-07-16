@@ -6,5 +6,5 @@ authored_by:
 installdirs: site
 requires:
   perl: 5.6.1
-  Kwiki: 0.33
+  Kwiki: 0.39
 distribution_type: module

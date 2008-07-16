@@ -7,7 +7,7 @@ SYNOPSIS
 DESCRIPTION
     This is a direct modification of Brian Ingerson's Kwiki::Archive::Rcs
     module to work with CVS instead of RCS. It was written and tested
-    against the 0.33 release of Kwiki.
+    against the 0.39 release of Kwiki.
 
     *   The underlying CVS command must support the -Q option (specifies
         'really quiet' operation).

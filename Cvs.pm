@@ -2,9 +2,9 @@ package Kwiki::Archive::Cvs;
 
 use strict;
 use warnings;
-use Kwiki::Archive '-Base';
+use Kwiki::Archive -Base;
 
-our $VERSION = '0.1';
+our $VERSION = '0.103';
 
 # It will try to add files to CVS every time they're changed; this
 #  fails silently when they're already present.
@@ -57,6 +57,10 @@ sub commit {
       $props->{edit_time},
       $props->{edit_unixtime};
 
+#    my $msg = join ',', map {
+#		$_ . ":" . $props->{$_}
+#	} sort keys %$props;
+
     $self->cvs($page, 'commit', '-m', $msg, $page->io);
 }
 
@@ -69,9 +73,9 @@ sub fetch_metadata {
     my $page = shift;
     my $rev = shift;
 
-    my $rlog = io("cvs -Q -d ".$self->cvsRoot($page)." log -r$rev ".$page->io." |") or die $!;
+    my $rlog = io("cvs -Q -d ".$self->cvsRoot($page)." log -r1.$rev ".$page->io." |") or die $!;
 
-    $rlog->utf8 if $self->use_utf8;
+    $rlog->utf8 if $self->has_utf8;
     $self->parse_metadata($rlog->all);
 }
 
@@ -84,9 +88,11 @@ sub parse_metadata {
     /xms or die "Couldn't parse rlog:\n$log";
 
     my $revision_id = $1;
+#   my $archive_date = $2;
     my $msg = $3;
     chomp $msg;
 
+    $msg =~ s/"//g; # Get rid of quote marks from old CVS commit messages
     my ($edit_by, $edit_time, $edit_unixtime) = split ',', $msg;
     $edit_time ||= $2;
     $edit_unixtime ||= 0;
@@ -105,7 +111,7 @@ sub history {
 
     my $rlog = io("cvs -Q -d ".$self->cvsRoot($page)." log ".$page->io." |") or die $!;
 
-    $rlog->utf8 if $self->use_utf8;
+    $rlog->utf8 if $self->has_utf8;
 
     my $input = $rlog->all;
     $input =~ s/
@@ -127,7 +133,7 @@ sub fetch {
     local($/, *CO);
     open CO, "cvs -Q -d ".$self->cvsRoot($page)." checkout -r$revision -p ".$self->cvsRepository($page)."/".$page->id." |"
       or die $!;
-    binmode(CO, ':utf8') if $self->use_utf8;
+    binmode(CO, ':utf8') if $self->has_utf8;
     scalar <CO>;
 }
 
@@ -189,7 +195,7 @@ Joseph Walton <joe@kafsemo.org>
 
 Copyright (c) 2004. Brian Ingerson. All rights reserved.
 
-Modifications for CVS copyright 2004 Joseph Walton.
+Modifications for CVS copyright 2004, 2005 Joseph Walton.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
