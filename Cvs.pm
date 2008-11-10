@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use Kwiki::Archive -Base;
 
-our $VERSION = '0.103';
+our $VERSION = '0.104';
 
 # It will try to add files to CVS every time they're changed; this
 #  fails silently when they're already present.
